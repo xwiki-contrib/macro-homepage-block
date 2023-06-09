@@ -27,7 +27,7 @@
     <artifactId>parent-platform</artifactId>
     <version>10.11</version>
   </parent>
-  <artifactId>macro-navigation-block</artifactId>
+  <artifactId>macro-homepage-block</artifactId>
   <packaging>xar</packaging>
   <name>Home Page Block Macros</name>
   <developers>
