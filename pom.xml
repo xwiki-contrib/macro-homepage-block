@@ -28,6 +28,7 @@
     <version>10.11</version>
   </parent>
   <artifactId>macro-homepage-block</artifactId>
+  <version>0.1</version>
   <packaging>xar</packaging>
   <name>Home Page Block Macros</name>
   <developers>
