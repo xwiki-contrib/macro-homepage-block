@@ -32,7 +32,7 @@
   <originalMetadataAuthor>XWiki.Admin</originalMetadataAuthor>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <version>1.1</version>
-  <title>Home Block Macro</title>
+  <title>HomeBlockMacro</title>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
@@ -648,7 +648,7 @@ flex-wrap: wrap;
 #set($image-height = $xcontext.macro.params.image-height)
 #set($top-height = $xcontext.macro.params.top-height)
 #set($text-height = $xcontext.macro.params.text-height)
-#set($text-color = $xcontext.macro.params.text-color)
+#set($text-textcolor = $xcontext.macro.params.text-textcolor)
 #set($text-bgcolor = $xcontext.macro.params.text-bgcolor)
 #set($buttons = $xcontext.macro.params.buttons)
 #set($classes = $!xcontext.macro.params.classes)
@@ -656,10 +656,16 @@ flex-wrap: wrap;
 #if($icon)
  #set($classes = "$!{classes} fa-icon fa-${icon}")
 #end
-#if($request.outputSyntax=="annotatedhtml")
+
+#set($viewMode = "view")
+#if ($xcontext.action == 'edit' || $request.outputSyntax == 'annotatedhtml' || $request.sheet == 'CKEditor.HTMLConverter')
+  #set($viewMode = "edit")
+#end
+
+#if($viewMode == "edit")
 (% class="row" %)(((
 #end
-(% class="home-block columns #if($request.outputSyntax=="annotatedhtml") home-block-edit#end $!{classes}" %)(((
+(% class="home-block columns #if($viewMode == "edit") home-block-edit#end $!{classes}" %)(((
 (% class="home-block-block" style="border-color: $!{bordercolor}; height: $!{height};" %)(((
 (% class="home-block-box" style="color: $!{top-textcolor}; background-color: $!{top-bgcolor}; height: $!{top-height};" %)(((
 #if($doc.getAttachment($image))
@@ -692,7 +698,7 @@ flex-wrap: wrap;
 )))
 )))
 )))
-#if($request.outputSyntax=="annotatedhtml")
+#if($viewMode == "edit")
 )))
 #end
 {{/velocity}}</code>
@@ -710,7 +716,7 @@ flex-wrap: wrap;
       <defaultCategories/>
     </property>
     <property>
-      <defaultCategory/>
+      <defaultCategory>navigation</defaultCategory>
     </property>
     <property>
       <description>Blocks to display links</description>
@@ -728,7 +734,7 @@ flex-wrap: wrap;
       <supportsInlineMode>0</supportsInlineMode>
     </property>
     <property>
-      <visibility>Global</visibility>
+      <visibility>Current Wiki</visibility>
     </property>
   </object>
   <object>
@@ -1076,7 +1082,7 @@ flex-wrap: wrap;
       </type>
     </class>
     <property>
-      <defaultValue/>
+      <defaultValue>#eee</defaultValue>
     </property>
     <property>
       <description>Background Color of the text section</description>
@@ -2066,7 +2072,7 @@ flex-wrap: wrap;
       </type>
     </class>
     <property>
-      <defaultValue>#ffffff</defaultValue>
+      <defaultValue>#fff</defaultValue>
     </property>
     <property>
       <description>Text Color of the top section</description>
@@ -2078,7 +2084,97 @@ flex-wrap: wrap;
       <name>top-textcolor</name>
     </property>
     <property>
-      <type>awt.lang.Color</type>
+      <type>java.awt.Color</type>
+    </property>
+  </object>
+  <object>
+    <name>Macros.HomeBlockMacro</name>
+    <number>15</number>
+    <className>XWiki.WikiMacroParameterClass</className>
+    <guid>caa87a8c-7c32-4457-bb8b-f59ca1a1dbbf</guid>
+    <class>
+      <name>XWiki.WikiMacroParameterClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <defaultValue>
+        <disabled>0</disabled>
+        <name>defaultValue</name>
+        <number>4</number>
+        <prettyName>Parameter default value</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultValue>
+      <description>
+        <disabled>0</disabled>
+        <name>description</name>
+        <number>2</number>
+        <prettyName>Parameter description</prettyName>
+        <restricted>0</restricted>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <mandatory>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>mandatory</name>
+        <number>3</number>
+        <prettyName>Parameter mandatory</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </mandatory>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Parameter name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <type>
+        <cache>0</cache>
+        <defaultValue>Unknown</defaultValue>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <freeText>allowed</freeText>
+        <largeStorage>1</largeStorage>
+        <multiSelect>0</multiSelect>
+        <name>type</name>
+        <number>5</number>
+        <picker>1</picker>
+        <prettyName>Parameter type</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator>|</separator>
+        <separators>|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>Unknown|Wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </type>
+    </class>
+    <property>
+      <defaultValue>#000</defaultValue>
+    </property>
+    <property>
+      <description/>
+    </property>
+    <property>
+      <mandatory/>
+    </property>
+    <property>
+      <name>text-textcolor</name>
+    </property>
+    <property>
+      <type>java.awt.Color</type>
     </property>
   </object>
 </xwikidoc>

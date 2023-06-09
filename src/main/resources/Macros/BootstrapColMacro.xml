@@ -36,7 +36,7 @@
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>false</hidden>
+  <hidden>true</hidden>
   <content>This macro is used to display a bootstrap column. It should be used with the [[row macro&gt;&gt;Macros.BootstrapRowMacro]].
 
 {{col}}
@@ -265,16 +265,20 @@ Lorem ipso sum.
     </property>
     <property>
       <code>{{velocity}}
+#set($viewMode = "view")
+#if ($xcontext.action == 'edit' || $request.outputSyntax == 'annotatedhtml' || $request.sheet == 'CKEditor.HTMLConverter')
+  #set($viewMode = "edit")
+#end
 #set($id = $xcontext.macro.params.id)
 #set($classes = $xcontext.macro.params.classes)
-#if($request.outputSyntax=="annotatedhtml")
+#if($viewMode == "edit")
 (% class="row" %)(((
 #end
-(% #if($id)id="${id}"#end #if($classes)class="$!classes"#end #if($request.outputSyntax=="annotatedhtml")style="margin-top: 30px; margin-left: 20px;"#end%)
+(% #if($id)id="${id}"#end #if($classes)class="$!classes"#end #if($viewMode == "edit")style="margin-top: 30px; margin-left: 20px;"#end%)
 (((
 {{wikimacrocontent/}}
 )))
-#if($request.outputSyntax=="annotatedhtml")
+#if($viewMode == "edit")
 )))
 #end
 {{/velocity}}
